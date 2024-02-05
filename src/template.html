@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <h1>My library web app</h1>
+        <div>
+          <div class="book-form-wrapper">
+            <form class="book-form">
+              <fieldset>
+                <legend>Add a book</legend>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required />
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required />
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                  <option value="Read">Read</option>
+                  <option value="Not read">Not read</option>
+                </select>
+                <input type="submit" class="book-form__submit" />
+              </fieldset>
+            </form>
+          </div>
+          <div class="books-headings">
+            <div>Title</div>
+            <div>Author</div>
+            <div>Status</div>
+            <div>Action</div>
+          </div>
+          <ul class="books"></ul>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
