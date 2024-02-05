@@ -75,8 +75,8 @@ Book.displayBooks();
 const books = document.querySelector(".books");
 
 books.addEventListener("click", function (e) {
-  const btnIndex = e.target.attributes.index.value;
   if (e.target.classList.contains("status")) {
+    const btnIndex = e.target.attributes.index.value;
     console.log("click");
     console.log(btnIndex);
     if (myLibrary[btnIndex].status === "Read") {
