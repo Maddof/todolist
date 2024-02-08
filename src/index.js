@@ -1,100 +1,64 @@
+import { renderTasks, renderProjects } from "./modues/ui_dom";
 import "./style.css";
 
-const myLibrary = [
+export const taskData = {
+  tasksArr: [
+    {
+      title: "Go shop",
+      description: "Shopping groceries, apples and tomatoes",
+      priority: "Important",
+      project: "Default",
+      date: "2024-02-06",
+    },
+    {
+      title: "Doctor appointment",
+      description: "Take 09.00AM bus",
+      priority: "Not important",
+      project: "Default",
+      date: "2024-02-08",
+    },
+    {
+      title: "Random title",
+      description: "Just do it.",
+      priority: "Not important",
+      project: "Default",
+      date: "2024-02-04",
+    },
+    {
+      title: "Study",
+      description: "Chapter 9 of math book",
+      priority: "Important",
+      project: "Math exam",
+      date: "2024-02-03",
+    },
+    {
+      title: "Research",
+      description: "Alghoritms after class",
+      priority: "Not important",
+      project: "Math exam",
+      date: "2024-02-02",
+    },
+  ],
+};
+
+export let projectsArr = [
   {
-    title: "The Hobbit",
-    author: "J.R.R Tolkien",
-    status: "Not read",
+    name: "Default",
   },
   {
-    title: "When the Moon Hatched",
-    author: "Sarah A. Parker",
-    status: "Read",
+    name: "Math exam",
   },
 ];
 
-class Book {
-  static displayBooks() {
-    const bookList = document.querySelector(".books");
-    bookList.innerHTML = "";
-    myLibrary.forEach((book, i) => {
-      const htmlBook = `
-            <li class ="books-item" index="${i}">
-                <div>${book.title}</div>
-                <div>${book.author}</div>
-                <div><button class="status" index="${i}" value="${book.status}">${book.status}</button></div>
-                <div><button class="delete" onClick="Book.deleteBook(${i})">Delete</button></div>
-            </li>
-        `;
-      bookList.insertAdjacentHTML("beforeend", htmlBook);
-    });
-  }
+class Task {}
 
-  static addBookToLibrary(newBookObj) {
-    myLibrary.push(newBookObj);
-    this.displayBooks();
-    console.log(myLibrary);
-  }
+// export const deleteAllTasksProject = function (projectName) {
+//   // Remove all tasks associated with the specified project
+//   tasksArr = tasksArr.filter((task) => task.project !== projectName);
 
-  static toggleStatus(i) {
-    if (myLibrary[i].status === "Read") {
-      myLibrary[i].status = "Not read";
-    } else {
-      myLibrary[i].status = "Read";
-    }
-    this.displayBooks();
-  }
-
-  static deleteBook(i) {
-    myLibrary.splice(i, 1);
-    this.displayBooks();
-  }
-}
-
-Book.displayBooks();
-
-// window.myToggle = function (i) {
-//   console.log("status button was clicked with index: " + i);
+//   // After removing tasks associated with the project, you might want to update the UI to reflect the changes
+//   renderTasks(); // Assuming you have a function to render the tasks
 // };
-// window.myToggle = myToggle;
 
-// const statusButtons = document.querySelectorAll(".status");
-// console.log(statusButtons);
-
-// statusButtons.forEach((button, i) => {
-//   button.addEventListener("click", () => {
-//     console.log("Hello button nr " + i);
-//     if (myLibrary[i].status === "Read") {
-//       myLibrary[i].status = "Not read";
-//     } else {
-//       myLibrary[i].status = "Read";
-//     }
-//   });
-// });
-
-const books = document.querySelector(".books");
-
-books.addEventListener("click", function (e) {
-  if (e.target.classList.contains("status")) {
-    const btnIndex = e.target.attributes.index.value;
-    console.log("click");
-    console.log(btnIndex);
-    if (myLibrary[btnIndex].status === "Read") {
-      myLibrary[btnIndex].status = "Not read";
-    } else {
-      myLibrary[btnIndex].status = "Read";
-    }
-  }
-  Book.displayBooks();
-});
-
-const form = document.querySelector(".book-form");
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  // Object constructor for form
-  let formData = new FormData(form);
-  // output as an object
-  Book.addBookToLibrary(Object.fromEntries(formData));
-  // clear inputs
-  form.reset();
-});
+renderTasks();
+renderProjects();

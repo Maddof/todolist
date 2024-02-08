@@ -1,5 +1,10 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
 }
 
 body {
@@ -8,38 +13,185 @@ body {
   background: gold;
 }
 
-.book-form-wrapper {
-  padding: 1rem;
-  background: black;
-  margin-bottom: 1em;
+header {
+  text-align: center;
+  padding: 2rem;
+  background-color: black;
   color: white;
 }
 
-.container {
-  max-width: 800px;
-  margin-inline: auto;
+main {
+  display: flex;
+  gap: 1rem;
+  min-height: calc(100vh - 4rem);
 }
 
-.book-form {
+#project-dialog {
+  min-width: 300px;
+  min-height: 300px;
+  margin: auto;
+}
+
+#project-dialog::backdrop {
+  background-color: rgb(0 0 0 / 60%);
+}
+
+#close-modal-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+}
+
+#dialog-messages {
+  color: red;
+}
+
+.left-panel {
+  width: 20%;
+  padding: 1rem;
+  background-color: rgb(177, 150, 0);
+  border-right: 2px solid black;
+}
+
+.left-panel h2 {
+  border-bottom: 2px solid;
+  margin-bottom: 0.5em;
+}
+
+.tasks-filter {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+.tasks-filter li {
+  cursor: pointer;
+}
+
+.tasks-filter li,
+.projects li {
+  padding: 0.5em 0.25em;
+}
+
+.tasks-filter li:hover,
+.projects li:hover {
+  background-color: rgb(212, 181, 0);
+}
+
+.projects {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-item .project-btn {
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 700;
   width: 100%;
+  text-align: left;
+  padding: 0.25em 0;
 }
 
-.book-form__submit {
+.project-task-count-info {
+  font-size: 90%;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.addproject-wrapper {
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  /* opacity: 0; */
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.addproject-btn {
   background-color: gold;
   border: none;
   padding: 0.5em 1em;
-  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.addproject-btn::after {
+  margin-right: 0.5em;
+  content: "+";
+  float: right;
+}
+
+.addproject-btn.active + .addproject-wrapper {
+  visibility: visible;
+}
+
+.addproject-btn.active::after {
+  content: "-";
+}
+
+.addproject-form fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.addproject-form input {
+  padding: 1em;
+  margin-bottom: 0.5em;
+}
+
+.right-panel {
+  padding: 1rem;
+  flex: 1;
+}
+
+#add-task-btn {
+  padding: 1em 2em;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
 }
 
+#add-task-btn.active + .task-form-wrapper {
+  visibility: visible;
+}
+
+.task-form-wrapper {
+  padding: 0 1em 1em 1em;
+  margin-bottom: 1em;
+  max-width: 800px;
+
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.container {
+  margin-inline: auto;
+}
+
+.addtask-form {
+  width: 100%;
+}
+
 fieldset {
   border-style: dashed;
-  border-color: gold;
+  border-color: black;
   padding: 1.25em;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: 20% 80%;
 }
 
 legend {
@@ -47,8 +199,17 @@ legend {
   padding: 1em;
   font-size: 1.25rem;
 }
+.addtask-form__submit {
+  cursor: pointer;
+  background-color: gold;
+  border: 1px solid black;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
 
-.books-headings {
+.tasks-heading {
   display: flex;
   justify-content: space-between;
   gap: 0.5em;
@@ -59,18 +220,18 @@ legend {
   text-transform: uppercase;
 }
 
-.books-headings > *,
-.books-item > * {
-  min-width: 25%;
+.tasks-heading > *,
+.task-item > * {
+  min-width: 16.67%;
 }
 
-.books {
+.tasks {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.books-item {
+.task-item {
   display: flex;
   justify-content: space-between;
   gap: 0.5em;
@@ -78,13 +239,12 @@ legend {
   border-bottom: 1px solid gray;
 }
 
-.books-item:nth-child(even) {
+.task-item:nth-child(even) {
   background-color: rgb(235, 199, 0);
 }
 
-.status,
+.priority,
 .delete {
-  cursor: pointer;
   padding: 1em;
   border: none;
   min-width: 80%;
@@ -93,10 +253,10 @@ legend {
   font-weight: 700;
 }
 
-.status[value="Not read"] {
+.priority[value="Not important"] {
   background: goldenrod;
 }
 
-.status[value="Read"] {
+.priority[value="Important"] {
   background: greenyellow;
 }
