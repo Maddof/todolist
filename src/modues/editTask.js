@@ -9,8 +9,9 @@ const editPrio = function (e) {
     } else {
       taskData.tasksArr[btnIndex].priority = "Not important";
     }
+    renderViewChecker();
   }
-  renderViewChecker();
+  // renderViewChecker();
 };
 
 const addTask = function (e) {
@@ -18,7 +19,12 @@ const addTask = function (e) {
   // Object constructor for form
   let formData = new FormData(formAddTask);
   // output as an object and push into tasks array
-  taskData.tasksArr.push(Object.fromEntries(formData));
+  let formObj = Object.fromEntries(formData);
+  taskData.tasksArr.push(formObj);
+
+  console.log(formData);
+  console.log(formObj);
+
   // clear inputs and render dom
   formAddTask.reset();
   renderViewChecker();
@@ -38,8 +44,8 @@ const deleteTask = function (e) {
     const btnIndex = getBtnIndex(e);
     taskData.tasksArr.splice(btnIndex, 1);
     renderProjects();
+    renderViewChecker();
   }
-  renderViewChecker();
 };
 
 const deleteTasksByProject = function (projectName) {

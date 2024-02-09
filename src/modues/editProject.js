@@ -1,4 +1,4 @@
-import { projectsArr } from "..";
+import { projectsData } from "..";
 import {
   renderProjects,
   renderProjectSelections,
@@ -10,19 +10,22 @@ const addProject = function (e) {
   // Object constructor for form
   let formData = new FormData(formAddProject);
   // output as an object and push into tasks array
-  projectsArr.push(Object.fromEntries(formData));
+  let formObj = Object.fromEntries(formData);
+  projectsData.projectsArr.push(formObj);
+
   // clear inputs and render dom
+
   formAddProject.reset();
   renderProjects();
   renderProjectSelections();
 };
 
 const deleteProject = function (i) {
-  projectsArr.splice(i, 1);
+  projectsData.projectsArr.splice(i, 1);
 };
 
 const renameProject = function (i, newName) {
-  projectsArr[i].name = newName;
+  projectsData.projectsArr[i].name = newName;
 };
 
 export { addProject, deleteProject, renameProject };

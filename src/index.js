@@ -8,7 +8,7 @@ export const taskData = {
       description: "Shopping groceries, apples and tomatoes",
       priority: "Important",
       project: "Default",
-      date: "2024-02-06",
+      date: "2024-02-09",
     },
     {
       title: "Doctor appointment",
@@ -22,7 +22,7 @@ export const taskData = {
       description: "Just do it.",
       priority: "Not important",
       project: "Default",
-      date: "2024-02-04",
+      date: "2024-02-10",
     },
     {
       title: "Study",
@@ -41,24 +41,18 @@ export const taskData = {
   ],
 };
 
-export let projectsArr = [
-  {
-    name: "Default",
-  },
-  {
-    name: "Math exam",
-  },
-];
+export let projectsData = {
+  projectsArr: [
+    {
+      name: "Default",
+    },
+    {
+      name: "Math exam",
+    },
+  ],
+};
 
 class Task {}
-
-// export const deleteAllTasksProject = function (projectName) {
-//   // Remove all tasks associated with the specified project
-//   tasksArr = tasksArr.filter((task) => task.project !== projectName);
-
-//   // After removing tasks associated with the project, you might want to update the UI to reflect the changes
-//   renderTasks(); // Assuming you have a function to render the tasks
-// };
 
 renderTasks();
 renderProjects();

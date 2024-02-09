@@ -1,4 +1,4 @@
-import { taskData, projectsArr } from "..";
+import { taskData, projectsData } from "..";
 import {
   editPrio,
   deleteTask,
@@ -8,7 +8,7 @@ import {
   deleteTasksByProject,
 } from "./editTask";
 import { addProject, deleteProject, renameProject } from "./editProject";
-import { isToday } from "date-fns";
+import { isToday, addDays, isWithinInterval } from "date-fns";
 
 const tasksWrapper = document.querySelector(".tasks");
 const formAddTask = document.querySelector(".addtask-form");
@@ -32,6 +32,9 @@ function clickToRenderFilter(e) {
     case "All Tasks":
       renderTasks();
       break;
+    case "Next 7 days":
+      renderNextWeekTasks(currentClickVal);
+      break;
     case "Important":
       renderTasksByPriority(currentClickVal);
       break;
@@ -41,22 +44,32 @@ function clickToRenderFilter(e) {
   }
 }
 
+function renderNextWeekTasks(val) {
+  const today = new Date();
+  const nextWeek = addDays(today, 7);
+  tasksWrapper.innerHTML = "";
+  setCurrentView(val);
+  taskData.tasksArr.forEach((task, i) => {
+    // Checking that the task is within 7 days.
+    if (
+      isWithinInterval(task.date, {
+        start: today,
+        end: nextWeek,
+      })
+    ) {
+      const htmlTask = renderTasksHtml(task, i);
+      tasksWrapper.insertAdjacentHTML("beforeend", htmlTask);
+    }
+  });
+}
+
 function renderTodaysTasks(val) {
   tasksWrapper.innerHTML = "";
   setCurrentView(val);
   taskData.tasksArr.forEach((task, i) => {
     // Checking that task priority is set to important and only rendering important tasks.
     if (isToday(task.date)) {
-      const htmlTask = `
-        <li class ="task-item" index="${i}">
-            <div>${task.title}</div>
-            <div>${task.description}</div>
-            <div>${task.project}</div>
-            <div>${task.date}</div>
-            <div><button class="priority" index="${i}" value="${task.priority}">${task.priority}</button></div>
-            <div><button class="delete" index="${i}">Delete</button></div>
-        </li>
-    `;
+      const htmlTask = renderTasksHtml(task, i);
       tasksWrapper.insertAdjacentHTML("beforeend", htmlTask);
     }
   });
@@ -64,7 +77,7 @@ function renderTodaysTasks(val) {
 
 const renderProjectSelections = function () {
   projectsSelection.innerHTML = "";
-  projectsArr.forEach((project) => {
+  projectsData.projectsArr.forEach((project) => {
     const htmlProjectSelection = `
       <option value="${project.name}">${project.name}</option>
     `;
@@ -128,7 +141,7 @@ function setCurrentSelection(projectName) {
 
 const renderProjects = function () {
   projectsWrapper.innerHTML = "";
-  projectsArr.forEach((project, i) => {
+  projectsData.projectsArr.forEach((project, i) => {
     const htmlProject = `
       <li class="project-item">
         <button class="project-btn" index="${i}" value="${project.name}">
@@ -188,11 +201,11 @@ function renameProjectName() {
   const newName = inputRename.value;
   const oldName = dialogTitle.textContent;
   const matchProject = (element) => element.name === dialogTitle.textContent;
-  const projectIndex = projectsArr.findIndex(matchProject);
+  const projectIndex = projectsData.projectsArr.findIndex(matchProject);
   if (inputRename.value.length < 3) {
     dialogMsg.textContent = "Please specify a longer name";
   }
-  if (projectsArr[projectIndex] === undefined) {
+  if (projectsData.projectsArr[projectIndex] === undefined) {
     dialogMsg.textContent = "SHIIET ALREADY DELETED";
   } else {
     renameProject(projectIndex, newName);
@@ -219,7 +232,7 @@ function displayProjectDialog(e) {
 
 function projectDelete() {
   const matchProject = (element) => element.name === dialogTitle.textContent;
-  const projectIndex = projectsArr.findIndex(matchProject);
+  const projectIndex = projectsData.projectsArr.findIndex(matchProject);
   if (projectIndex === -1) {
     deleteProjectModalBtn.textContent = "Already deleted";
   } else {
@@ -264,6 +277,10 @@ function renderViewChecker() {
     renderTodaysTasks(currentView);
     return;
   }
+  if (currentView === "Next 7 days") {
+    renderNextWeekTasks(currentView);
+    return;
+  }
   if (currentView != "My tasks") {
     renderTaskByProject(currentView);
   } else {
@@ -277,8 +294,8 @@ function renderViewChecker() {
 function renderTasksHtml(task, i) {
   const htmlTask = `
   <li class ="task-item" index="${i}">
-  <div>${task.title}</div>
-  <div>${task.description}</div>
+  <h3>${task.title}</h3>
+  <p>${task.description}</p>
   <div>${task.project}</div>
   <div>${task.date}</div>
   <div><button class="priority" index="${i}" value="${task.priority}">${task.priority}</button></div>

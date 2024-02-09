@@ -142,9 +142,15 @@ main {
 .addproject-form fieldset {
   display: flex;
   flex-direction: column;
+  padding: 0.75em;
+}
+
+.addproject-form fieldset legend {
+  padding: 0.5em;
 }
 
 .addproject-form input {
+  width: 100%;
   padding: 1em;
   margin-bottom: 0.5em;
 }
@@ -209,23 +215,16 @@ legend {
   font-weight: 700;
 }
 
-.tasks-heading {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5em;
-  /* margin-bottom: 0.5em; */
-  padding: 1em;
-  font-weight: bold;
+.currentview-title {
+  margin-bottom: 1em;
+  padding-bottom: 0.25em;
   border-bottom: 2px solid black;
-  text-transform: uppercase;
-}
-
-.tasks-heading > *,
-.task-item > * {
-  min-width: 16.67%;
 }
 
 .tasks {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1em;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -233,10 +232,12 @@ legend {
 
 .task-item {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 0.5em;
   padding: 1em;
-  border-bottom: 1px solid gray;
+  border: 1px solid gray;
+  border-radius: 8px;
 }
 
 .task-item:nth-child(even) {
@@ -247,7 +248,7 @@ legend {
 .delete {
   padding: 1em;
   border: none;
-  min-width: 80%;
+  width: 100%;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
