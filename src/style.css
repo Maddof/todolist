@@ -106,7 +106,9 @@ main {
   padding: 0.25em 0;
 }
 
-.project-task-count-info {
+.project-task-count-info,
+.tasks-amount-filter {
+  pointer-events: none;
   font-size: 90%;
   color: rgba(0, 0, 0, 0.6);
 }

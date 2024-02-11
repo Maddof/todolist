@@ -6,6 +6,7 @@ import {
 } from "./modues/ui_dom";
 import { loadProjectsFromLocalStorage } from "./modues/editProject";
 import { loadTasksFromLocalStorage } from "./modues/editTask";
+import { renderTasksCountLeftPanel } from "./modues/ui_tasks-count";
 import "./style.css";
 
 export const taskData = {
@@ -42,11 +43,12 @@ export let projectsData = {
   ],
 };
 
-class Task {}
+// Initalizing page on load
 
 loadProjectsFromLocalStorage();
 loadTasksFromLocalStorage();
 renderTasks();
 renderProjects();
 renderProjectSelections();
+renderTasksCountLeftPanel();
 setDatePickerToday();

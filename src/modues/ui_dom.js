@@ -3,11 +3,12 @@ import {
   editPrio,
   deleteTask,
   addTask,
-  countTasks,
+  countTasksInProject,
   renameTaskProject,
   deleteTasksByProject,
 } from "./editTask";
 import { addProject, deleteProject, renameProject } from "./editProject";
+import { renderTasksCountLeftPanel } from "./ui_tasks-count";
 import { isToday, addDays, isWithinInterval } from "date-fns";
 
 const tasksWrapper = document.querySelector(".tasks");
@@ -30,6 +31,7 @@ function addTaskUpdate(e) {
   formAddTask.reset();
   setDatePickerToday();
   renderViewChecker();
+  renderTasksCountLeftPanel();
   renderProjects();
 }
 
@@ -45,7 +47,8 @@ function addProjectUpdate(e) {
 tasksFilterWrapper.addEventListener("click", clickToRenderFilter);
 
 function clickToRenderFilter(e) {
-  const currentClickVal = e.target.textContent;
+  const currentClickVal = e.target.childNodes[0].textContent.trim();
+  console.log(currentClickVal);
   switch (currentClickVal) {
     case "All Tasks":
       renderTasks();
@@ -165,7 +168,7 @@ const renderProjects = function () {
         <button class="project-btn" index="${i}" value="${project.name}">
         ${project.name} 
         <span class="project-task-count-info">
-        (${countTasks(project.name)})
+        (${countTasksInProject(project.name)})
         </span></button>
         <button class="project-edit-btn" index="${i}" value="${project.name}">
         Edit
@@ -324,10 +327,6 @@ function renderTasksHtml(task, i) {
 </li>
 `;
   return htmlTask;
-}
-
-{
-  /* <div><button class="priority" index="${i}" value="${task.priority}">${task.priority}</button></div> */
 }
 
 // Setting form date picker to todays date:

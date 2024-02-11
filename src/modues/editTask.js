@@ -1,5 +1,6 @@
 import { taskData } from "..";
 import { formAddTask, renderProjects, renderViewChecker } from "./ui_dom";
+import { isToday, isWithinInterval, addDays } from "date-fns";
 
 const localTasksStorageKey = "tasks";
 
@@ -72,23 +73,71 @@ function getBtnIndex(e) {
 }
 
 // Helper function for counting tasks
-function countTasks(input) {
-  let total = 0;
-  let defaultTotal = 0;
+function countTasksInProject(input) {
+  let tasksInProject = 0;
   for (let i = 0; i < taskData.tasksArr.length; i++) {
-    total++;
     if (taskData.tasksArr[i].project === input) {
-      defaultTotal++;
+      tasksInProject++;
     }
   }
-  return defaultTotal;
+  return tasksInProject;
+}
+
+function countAllTasks() {
+  let totalTasks = 0;
+  for (let i = 0; i < taskData.tasksArr.length; i++) {
+    totalTasks++;
+  }
+  return totalTasks;
+}
+
+function countTodayTasks() {
+  let todayTasks = 0;
+  taskData.tasksArr.forEach((task, i) => {
+    if (isToday(task.date)) {
+      todayTasks++;
+    }
+  });
+  return todayTasks;
+}
+
+function countNextWeekTasks() {
+  const today = new Date();
+  const nextWeek = addDays(today, 7);
+  let totalNextWeekTasks = 0;
+  taskData.tasksArr.forEach((task, i) => {
+    // Checking that the task is within 7 days.
+    if (
+      isWithinInterval(task.date, {
+        start: today,
+        end: nextWeek,
+      })
+    )
+      totalNextWeekTasks++;
+  });
+  return totalNextWeekTasks;
+}
+
+function countImportantTasks() {
+  let totalImportantTasks = 0;
+  taskData.tasksArr.forEach((task, i) => {
+    // Checking that task priority is set to important and only rendering important tasks.
+    if (task.priority === "Important") {
+      totalImportantTasks++;
+    }
+  });
+  return totalImportantTasks;
 }
 
 export {
   editPrio,
   deleteTask,
   addTask,
-  countTasks,
+  countTasksInProject,
+  countAllTasks,
+  countTodayTasks,
+  countNextWeekTasks,
+  countImportantTasks,
   renameTaskProject,
   deleteTasksByProject,
   loadTasksFromLocalStorage,
