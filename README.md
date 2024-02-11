@@ -23,4 +23,5 @@ A big project summarizing most of the curriculum in the Odin Project so far. Exa
 
 - Mobile responsiveness, change the left panel to a slide out on mobile
 - WCAG: The left filter menu links are not accessible. Should be wrapped in a button to be able to keyboard navigate
+- UI in dialog modal
 - Decoupling the code and the modules further, some code in the edit task module is manipulating the dom that should be coupled into the ui module.
