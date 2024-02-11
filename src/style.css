@@ -3,6 +3,12 @@
   margin: 0;
 }
 
+img,
+svg {
+  display: block;
+  height: auto;
+}
+
 button {
   cursor: pointer;
 }
@@ -230,10 +236,23 @@ legend {
   padding: 0;
 }
 
+@media screen and (max-width: 768px) {
+  .tasks {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .tasks {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .task-item {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.5em;
   padding: 1em;
   border: 1px solid gray;
@@ -244,7 +263,25 @@ legend {
   background-color: rgb(235, 199, 0);
 }
 
-.priority,
+.task-title {
+  margin-right: 22px;
+  font-size: 1.4rem;
+}
+
+.task-date-project-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.task-description {
+  padding: 0.5em 0;
+  padding-left: 8px;
+  border-left: 2px solid black;
+  font-size: 18px;
+}
+
 .delete {
   padding: 1em;
   border: none;
@@ -252,12 +289,60 @@ legend {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
+  margin-top: auto;
 }
 
-.priority[value="Not important"] {
-  background: goldenrod;
+.priority {
+  position: absolute;
+  display: flex;
+  padding: 0;
+  top: 1em;
+  right: 1em;
+  background: transparent;
+  border: none;
 }
 
-.priority[value="Important"] {
-  background: greenyellow;
+.priority .tooltiptext {
+  visibility: hidden;
+  /* width: 120px; */
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  margin-left: -44px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.priority .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.priority:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.important-icon {
+  pointer-events: none; /* Setting none here to prevent click, we want click only on button wrapper */
+  width: 24px;
+  fill: red;
+}
+
+.priority[value="Not important"] .important-icon {
+  fill: rgba(0, 0, 0, 0.2);
+}
+
+.priority[value="Important"] .important-icon {
+  fill: rgb(0, 0, 0);
 }

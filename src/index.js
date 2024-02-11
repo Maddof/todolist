@@ -1,11 +1,18 @@
-import { renderTasks, renderProjects } from "./modues/ui_dom";
+import {
+  renderTasks,
+  renderProjects,
+  renderProjectSelections,
+  setDatePickerToday,
+} from "./modues/ui_dom";
+import { loadProjectsFromLocalStorage } from "./modues/editProject";
+import { loadTasksFromLocalStorage } from "./modues/editTask";
 import "./style.css";
 
 export const taskData = {
   tasksArr: [
     {
-      title: "Go shop",
-      description: "Shopping groceries, apples and tomatoes",
+      title: "A test task",
+      description: "You can delete these tasks anytime you like",
       priority: "Important",
       project: "Default",
       date: "2024-02-09",
@@ -24,20 +31,6 @@ export const taskData = {
       project: "Default",
       date: "2024-02-10",
     },
-    {
-      title: "Study",
-      description: "Chapter 9 of math book",
-      priority: "Important",
-      project: "Math exam",
-      date: "2024-02-03",
-    },
-    {
-      title: "Research",
-      description: "Alghoritms after class",
-      priority: "Not important",
-      project: "Math exam",
-      date: "2024-02-02",
-    },
   ],
 };
 
@@ -46,13 +39,14 @@ export let projectsData = {
     {
       name: "Default",
     },
-    {
-      name: "Math exam",
-    },
   ],
 };
 
 class Task {}
 
+loadProjectsFromLocalStorage();
+loadTasksFromLocalStorage();
 renderTasks();
 renderProjects();
+renderProjectSelections();
+setDatePickerToday();

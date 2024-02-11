@@ -25,7 +25,13 @@
           <form class="addproject-form">
             <fieldset>
               <legend>Project name</legend>
-              <input type="text" id="name" name="name" required />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autocomplete="off"
+              />
               <input type="submit" class="addtask-form__submit" />
             </fieldset>
           </form>
@@ -57,7 +63,7 @@
                     <option value="Important">Important</option>
                     <option value="Not important">Not important</option>
                   </select>
-                  <label for="project">Project:</label>
+                  <label for="project-selection">Project:</label>
                   <select name="project" id="project-selection">
                     <option value="Default">Default</option>
                     <option value="Math exam">Math exam</option>

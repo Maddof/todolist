@@ -1,6 +1,20 @@
 import { taskData } from "..";
 import { formAddTask, renderProjects, renderViewChecker } from "./ui_dom";
 
+const localTasksStorageKey = "tasks";
+
+// Load tasks from local storage on page load
+const loadTasksFromLocalStorage = function () {
+  const tasksFromLocalStorage = localStorage.getItem(localTasksStorageKey);
+  if (tasksFromLocalStorage) {
+    taskData.tasksArr = JSON.parse(tasksFromLocalStorage);
+  }
+};
+
+const updateTasksLocalStorage = function () {
+  localStorage.setItem(localTasksStorageKey, JSON.stringify(taskData.tasksArr));
+};
+
 const editPrio = function (e) {
   if (e.target.classList.contains("priority")) {
     const btnIndex = getBtnIndex(e);
@@ -10,8 +24,8 @@ const editPrio = function (e) {
       taskData.tasksArr[btnIndex].priority = "Not important";
     }
     renderViewChecker();
+    updateTasksLocalStorage();
   }
-  // renderViewChecker();
 };
 
 const addTask = function (e) {
@@ -22,13 +36,7 @@ const addTask = function (e) {
   let formObj = Object.fromEntries(formData);
   taskData.tasksArr.push(formObj);
 
-  console.log(formData);
-  console.log(formObj);
-
-  // clear inputs and render dom
-  formAddTask.reset();
-  renderViewChecker();
-  renderProjects();
+  updateTasksLocalStorage();
 };
 
 const renameTaskProject = function (oldName, newName) {
@@ -37,6 +45,7 @@ const renameTaskProject = function (oldName, newName) {
       task.project = newName;
     }
   });
+  updateTasksLocalStorage();
 };
 
 const deleteTask = function (e) {
@@ -46,6 +55,7 @@ const deleteTask = function (e) {
     renderProjects();
     renderViewChecker();
   }
+  updateTasksLocalStorage();
 };
 
 const deleteTasksByProject = function (projectName) {
@@ -53,6 +63,7 @@ const deleteTasksByProject = function (projectName) {
   taskData.tasksArr = taskData.tasksArr.filter(
     (task) => task.project !== projectName
   );
+  updateTasksLocalStorage();
 };
 
 // Helper function for getting the current button index.
@@ -80,4 +91,5 @@ export {
   countTasks,
   renameTaskProject,
   deleteTasksByProject,
+  loadTasksFromLocalStorage,
 };

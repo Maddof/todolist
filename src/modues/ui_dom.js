@@ -16,13 +16,31 @@ const formAddProject = document.querySelector(".addproject-form");
 const projectsWrapper = document.querySelector(".projects");
 const projectsSelection = document.getElementById("project-selection");
 const tasksFilterWrapper = document.querySelector(".tasks-filter");
+const datePicker = document.getElementById("date");
 
 let viewTitleHeading = document.querySelector(".currentview-title");
 
 tasksWrapper.addEventListener("click", editPrio);
 tasksWrapper.addEventListener("click", deleteTask);
-formAddTask.addEventListener("submit", addTask);
-formAddProject.addEventListener("submit", addProject);
+formAddTask.addEventListener("submit", addTaskUpdate);
+formAddProject.addEventListener("submit", addProjectUpdate);
+
+function addTaskUpdate(e) {
+  addTask(e);
+  formAddTask.reset();
+  setDatePickerToday();
+  renderViewChecker();
+  renderProjects();
+}
+
+function addProjectUpdate(e) {
+  addProject(e);
+  formAddProject.reset();
+  renderProjects();
+  renderProjectSelections();
+}
+
+// Left panel menu for filterings tasks by All, Next 7, Important or Today
 
 tasksFilterWrapper.addEventListener("click", clickToRenderFilter);
 
@@ -67,7 +85,7 @@ function renderTodaysTasks(val) {
   tasksWrapper.innerHTML = "";
   setCurrentView(val);
   taskData.tasksArr.forEach((task, i) => {
-    // Checking that task priority is set to important and only rendering important tasks.
+    // Using date-fns function to check if task date is set to today.
     if (isToday(task.date)) {
       const htmlTask = renderTasksHtml(task, i);
       tasksWrapper.insertAdjacentHTML("beforeend", htmlTask);
@@ -258,6 +276,7 @@ function deleteAllTasks() {
 
 function setDialogProjectHtml(e) {
   dialogTitle.textContent = e.target.value;
+  deleteProjectModalBtn.textContent = "Delete";
   deleteProjectModalBtn.setAttribute("value", dialogTitle.textContent);
 }
 
@@ -294,15 +313,27 @@ function renderViewChecker() {
 function renderTasksHtml(task, i) {
   const htmlTask = `
   <li class ="task-item" index="${i}">
-  <h3>${task.title}</h3>
-  <p>${task.description}</p>
-  <div>${task.project}</div>
-  <div>${task.date}</div>
-  <div><button class="priority" index="${i}" value="${task.priority}">${task.priority}</button></div>
-  <div><button class="delete" index="${i}">Delete</button></div>
+  <h3 class="task-title">${task.title}</h3>
+  <div class="task-date-project-wrapper"><div>${task.date}</div> / <div>${task.project}</div></div>
+  <p class="task-description">${task.description}</p>
+  <button class="priority" index="${i}" value="${task.priority}">
+  <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 -0.5 21 21" class="important-icon"><path d="M11.55 5.007v7c0 .552-.47 1-1.05 1s-1.05-.448-1.05-1v-7c0-.552.47-1 1.05-1s1.05.448 1.05 1h0zm0 10c0 .552-.47 1-1.05 1s-1.05-.448-1.05-1 .47-1 1.05-1 1.05.448 1.05 1h0zM18.9 17c0 .552-.47 1-1.05 1H3.15c-.58 0-1.05-.448-1.05-1V3c0-.552.47-1 1.05-1h14.7c.58 0 1.05.448 1.05 1v14zm0-17H2.1C.94 0 0 .899 0 2.003v.004 16C0 19.112.94 20 2.1 20h16.8c1.16 0 2.1-.892 2.1-1.997V2.007C21 .902 19.95 0 18.9 0h0z" fill-rule="evenodd"/></svg>
+  <span class="tooltiptext">Important status</span>  
+  </button>
+  <button class="delete" index="${i}">Done</button>
 </li>
 `;
   return htmlTask;
+}
+
+{
+  /* <div><button class="priority" index="${i}" value="${task.priority}">${task.priority}</button></div> */
+}
+
+// Setting form date picker to todays date:
+
+function setDatePickerToday() {
+  datePicker.valueAsDate = new Date();
 }
 
 export {
@@ -310,6 +341,7 @@ export {
   renderProjects,
   renderProjectSelections,
   renderViewChecker,
+  setDatePickerToday,
   formAddTask,
   formAddProject,
   viewTitleHeading,

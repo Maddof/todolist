@@ -1,9 +1,22 @@
 import { projectsData } from "..";
-import {
-  renderProjects,
-  renderProjectSelections,
-  formAddProject,
-} from "./ui_dom";
+import { formAddProject } from "./ui_dom";
+
+const localProjectStorageKey = "projects";
+
+// Load projects from local storage on page load
+const loadProjectsFromLocalStorage = function () {
+  const projectsFromLocalStorage = localStorage.getItem(localProjectStorageKey);
+  if (projectsFromLocalStorage) {
+    projectsData.projectsArr = JSON.parse(projectsFromLocalStorage);
+  }
+};
+
+const updateProjectsLocalStorage = function () {
+  localStorage.setItem(
+    localProjectStorageKey,
+    JSON.stringify(projectsData.projectsArr)
+  );
+};
 
 const addProject = function (e) {
   e.preventDefault();
@@ -12,20 +25,23 @@ const addProject = function (e) {
   // output as an object and push into tasks array
   let formObj = Object.fromEntries(formData);
   projectsData.projectsArr.push(formObj);
-
-  // clear inputs and render dom
-
-  formAddProject.reset();
-  renderProjects();
-  renderProjectSelections();
+  // Updates local storage
+  updateProjectsLocalStorage();
 };
 
 const deleteProject = function (i) {
   projectsData.projectsArr.splice(i, 1);
+  updateProjectsLocalStorage();
 };
 
 const renameProject = function (i, newName) {
   projectsData.projectsArr[i].name = newName;
+  updateProjectsLocalStorage();
 };
 
-export { addProject, deleteProject, renameProject };
+export {
+  addProject,
+  deleteProject,
+  renameProject,
+  loadProjectsFromLocalStorage,
+};
