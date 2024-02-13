@@ -207,7 +207,20 @@ addTaskBtn.addEventListener("click", () => {
   }
 });
 
-// const projectEditBtn = document.querySelectorAll(".project-edit-btn");
+// Accordion logic for rename form in dialog.
+
+const renameBtn = document.getElementById("rename-project-btn");
+const renameForm = document.getElementById("rename-form");
+
+renameBtn.addEventListener("click", () => {
+  renameBtn.classList.toggle("active");
+  if (renameBtn.classList.contains("active")) {
+    renameForm.style.maxHeight = renameForm.scrollHeight + "px";
+  } else {
+    renameForm.style.maxHeight = 0;
+  }
+});
+
 const dialogCloseBtn = document.getElementById("close-modal-btn");
 const projectDialog = document.getElementById("project-dialog");
 const dialogTitle = document.getElementById("dialog-title");
@@ -261,20 +274,25 @@ function projectDelete() {
     deleteProjectModalBtn.textContent = "Deleted";
     renderProjects();
     renderProjectSelections();
-    deleteAllTasks();
+    deleteAllTasksInProject();
   }
 }
 
-function deleteAllTasks() {
-  const deleteAllTasksBtn = document.createElement("button");
-  deleteAllTasksBtn.textContent = "Delete all tasks in this project?";
-  dialogMsg.appendChild(deleteAllTasksBtn);
+function deleteAllTasksInProject() {
+  const tasksCountInProject = taskData.tasksArr.filter(
+    (task) => task.project === dialogTitle.textContent
+  );
+  if (tasksCountInProject.length > 0) {
+    const deleteAllTasksBtn = document.createElement("button");
+    deleteAllTasksBtn.textContent = "Delete all tasks in this project?";
+    dialogMsg.appendChild(deleteAllTasksBtn);
 
-  deleteAllTasksBtn.addEventListener("click", () => {
-    console.log("clicky micky");
-    deleteTasksByProject(dialogTitle.textContent);
-    renderTasks();
-  });
+    deleteAllTasksBtn.addEventListener("click", () => {
+      deleteTasksByProject(dialogTitle.textContent);
+      renderTasksCountLeftPanel();
+      renderTasks();
+    });
+  }
 }
 
 function setDialogProjectHtml(e) {
