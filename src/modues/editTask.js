@@ -1,6 +1,7 @@
 import { taskData } from "..";
 import { formAddTask, renderProjects, renderViewChecker } from "./ui_dom";
 import { isToday, isWithinInterval, addDays } from "date-fns";
+import { renderTasksCountLeftPanel } from "./ui_tasks-count";
 
 const localTasksStorageKey = "tasks";
 
@@ -54,6 +55,7 @@ const deleteTask = function (e) {
     const btnIndex = getBtnIndex(e);
     taskData.tasksArr.splice(btnIndex, 1);
     renderProjects();
+    renderTasksCountLeftPanel();
     renderViewChecker();
   }
   updateTasksLocalStorage();

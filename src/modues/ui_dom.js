@@ -27,12 +27,17 @@ formAddTask.addEventListener("submit", addTaskUpdate);
 formAddProject.addEventListener("submit", addProjectUpdate);
 
 function addTaskUpdate(e) {
-  addTask(e);
-  formAddTask.reset();
-  setDatePickerToday();
-  renderViewChecker();
-  renderTasksCountLeftPanel();
-  renderProjects();
+  if (projectsSelection.length === 0) {
+    e.preventDefault();
+    alert("Please specify or create a project first");
+  } else {
+    addTask(e);
+    formAddTask.reset();
+    setDatePickerToday();
+    renderViewChecker();
+    renderTasksCountLeftPanel();
+    renderProjects();
+  }
 }
 
 function addProjectUpdate(e) {
@@ -291,6 +296,7 @@ function deleteAllTasksInProject() {
       deleteTasksByProject(dialogTitle.textContent);
       renderTasksCountLeftPanel();
       renderTasks();
+      deleteAllTasksBtn.remove();
     });
   }
 }
