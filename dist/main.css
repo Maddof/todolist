@@ -43,6 +43,8 @@ main {
   min-width: 300px;
   min-height: 300px;
   margin: auto;
+  border: 4px solid gold;
+  border-radius: 8px;
 }
 
 #project-dialog::backdrop {
@@ -51,13 +53,40 @@ main {
 
 #close-modal-btn {
   position: absolute;
+  font-weight: 700;
+  font-size: 1rem;
   top: 0;
   right: 0;
-  padding: 0.5em;
+  padding: 1em;
+  border: none;
+  background: none;
+}
+
+#dialog-title {
+  margin-bottom: 1em;
 }
 
 #dialog-messages {
   color: red;
+}
+
+#dialog-options:has(.active) + #rename-form {
+  visibility: visible;
+}
+
+#rename-form {
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  margin-top: 1em;
+  gap: 0.5em;
+  max-height: 0;
 }
 
 .left-panel {
@@ -182,8 +211,16 @@ main {
   font-weight: 700;
 }
 
+#add-task-btn::after {
+  content: " +";
+}
+
 #add-task-btn.active + .task-form-wrapper {
   visibility: visible;
+}
+
+#add-task-btn.active::after {
+  content: " -";
 }
 
 .task-form-wrapper {
@@ -220,7 +257,9 @@ legend {
   padding: 1em;
   font-size: 1.25rem;
 }
-.addtask-form__submit {
+.addtask-form__submit,
+#delete-project-btn,
+#rename-project-btn {
   cursor: pointer;
   background-color: gold;
   border: 1px solid black;
