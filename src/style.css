@@ -235,6 +235,12 @@ main {
   overflow: hidden;
 }
 
+@media screen and (max-width: 468px) {
+  .task-form-wrapper fieldset {
+    grid-template-columns: 100%;
+  }
+}
+
 .container {
   margin-inline: auto;
 }
