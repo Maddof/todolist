@@ -236,6 +236,9 @@ main {
 }
 
 @media screen and (max-width: 468px) {
+  .task-form-wrapper {
+    padding: 0;
+  }
   .task-form-wrapper fieldset {
     grid-template-columns: 100%;
   }
@@ -296,13 +299,13 @@ legend {
 
 @media screen and (max-width: 768px) {
   .tasks {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media screen and (max-width: 468px) {
   .tasks {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
