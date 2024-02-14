@@ -258,6 +258,10 @@ fieldset {
   grid-template-columns: 20% 80%;
 }
 
+.addtask-form > fieldset * {
+  min-width: 0;
+}
+
 legend {
   font-weight: 700;
   padding: 1em;
