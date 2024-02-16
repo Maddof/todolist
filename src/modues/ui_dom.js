@@ -16,7 +16,6 @@ const formAddTask = document.querySelector(".addtask-form");
 const formAddProject = document.querySelector(".addproject-form");
 const projectsWrapper = document.querySelector(".projects");
 const projectsSelection = document.getElementById("project-selection");
-const tasksFilterWrapper = document.querySelector(".tasks-filter");
 const datePicker = document.getElementById("date");
 
 let viewTitleHeading = document.querySelector(".currentview-title");
@@ -45,29 +44,6 @@ function addProjectUpdate(e) {
   formAddProject.reset();
   renderProjects();
   renderProjectSelections();
-}
-
-// Left panel menu for filterings tasks by All, Next 7, Important or Today
-
-tasksFilterWrapper.addEventListener("click", clickToRenderFilter);
-
-function clickToRenderFilter(e) {
-  const currentClickVal = e.target.childNodes[0].textContent.trim();
-  console.log(currentClickVal);
-  switch (currentClickVal) {
-    case "All Tasks":
-      renderTasks();
-      break;
-    case "Next 7 days":
-      renderNextWeekTasks(currentClickVal);
-      break;
-    case "Important":
-      renderTasksByPriority(currentClickVal);
-      break;
-    case "Today":
-      renderTodaysTasks(currentClickVal);
-      break;
-  }
 }
 
 function renderNextWeekTasks(val) {
@@ -135,13 +111,6 @@ const renderTaskByProject = function (projectName) {
   });
 };
 
-projectsWrapper.addEventListener("click", (e) => {
-  if (e.target.classList.contains("project-btn")) {
-    renderTaskByProject(e.target.value);
-    setCurrentView(e.target.value);
-  }
-});
-
 const setCurrentView = function (val) {
   viewTitleHeading.textContent = val || "My tasks";
 };
@@ -183,22 +152,6 @@ const renderProjects = function () {
     projectsWrapper.insertAdjacentHTML("beforeend", htmlProject);
   });
 };
-
-/* Accordion logic for add project button in left panel */
-
-const addProjectBtn = document.querySelector(".addproject-btn");
-const addProjectWrapper = document.querySelector(".addproject-wrapper");
-
-addProjectBtn.addEventListener("click", () => {
-  addProjectBtn.classList.toggle("active");
-  if (addProjectBtn.classList.contains("active")) {
-    addProjectWrapper.style.maxHeight = addProjectWrapper.scrollHeight + "px";
-  } else {
-    addProjectWrapper.style.maxHeight = 0;
-  }
-});
-
-/* Accordion logic for add task button in right panel */
 
 const addTaskBtn = document.getElementById("add-task-btn");
 const formTaskWrapper = document.querySelector(".task-form-wrapper");
@@ -361,11 +314,17 @@ function setDatePickerToday() {
 
 export {
   renderTasks,
+  renderNextWeekTasks,
+  renderTodaysTasks,
+  renderTasksByPriority,
   renderProjects,
+  renderTaskByProject,
   renderProjectSelections,
   renderViewChecker,
   setDatePickerToday,
   formAddTask,
   formAddProject,
   viewTitleHeading,
+  projectsWrapper,
+  setCurrentView,
 };
