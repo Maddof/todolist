@@ -9,7 +9,6 @@ import { loadTasksFromLocalStorage } from "./modues/editTask";
 import { renderTasksCountLeftPanel } from "./modues/ui_tasks-count";
 import "./style.css";
 import "./mnav.css";
-import { toggleMobileNav } from "./modues/ui_nav";
 
 export const taskData = {
   tasksArr: [
