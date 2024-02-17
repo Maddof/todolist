@@ -64,9 +64,23 @@ addProjectBtn.addEventListener("click", () => {
   }
 });
 
+// Tracking outside clicks of leftPanel and mobile nav toggle btn
+
+window.addEventListener("click", (e) => {
+  const leftPanelVisible = leftPanel.getAttribute("mobile-visible");
+  if (
+    !leftPanel.contains(e.target) &&
+    !mobileNavBtn.contains(e.target) &&
+    leftPanelVisible === "true"
+  ) {
+    toggleNavAttribute();
+    console.log("clicked outside left panel");
+  }
+});
+
 // Helper function for toggling attributes on mobile nav
 
-function toggleNavAttribute() {
+export function toggleNavAttribute() {
   const visibility = leftPanel.getAttribute("mobile-visible");
   if (visibility === "false") {
     leftPanel.setAttribute("mobile-visible", "true");

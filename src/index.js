@@ -7,6 +7,7 @@ import {
 import { loadProjectsFromLocalStorage } from "./modues/editProject";
 import { loadTasksFromLocalStorage } from "./modues/editTask";
 import { renderTasksCountLeftPanel } from "./modues/ui_tasks-count";
+import { toggleNavAttribute } from "./modues/ui_nav";
 import "./style.css";
 import "./mnav.css";
 
